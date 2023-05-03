@@ -3,5 +3,6 @@ server:
 
 uri :
   api :
-    clientes : http://localhost:8080/
+    clientes : http://localhost:9092/
+    cuentas : https://pokeapi.co/
 
