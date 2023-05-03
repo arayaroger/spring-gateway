@@ -6,3 +6,24 @@ uri :
     clientes : http://localhost:9092/
     cuentas : https://pokeapi.co/
 
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: all_clientes
+          uri: http://localhost:9092/
+          predicates:
+          - Method=GET
+          - Path=/v1/api/cliente/all
+          filters:
+          - AddRequestHeader=X-GATEWAY-REQUEST-HEADER, GATEWAY-SOLICITUD
+          - AddResponseHeader=X-GATEWAY-RESPONSE-HEADER, GATEWAY-RESPONSE
+        - id: cliente_id
+          uri: http://localhost:9092/
+          predicates:
+            - Method=GET,POST,PUT
+            - Path=/promerica/cliente-por-id/{id}
+          filters:
+            - RewritePath=/promerica/cliente-por-id/, /v1/api/cliente/
+            - AddRequestHeader=X-GATEWAY-REQUEST-HEADER, GATEWAY-SOLICITUD
+            - AddResponseHeader=X-GATEWAY-RESPONSE-HEADER, GATEWAY-RESPONSE
