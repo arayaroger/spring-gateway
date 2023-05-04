@@ -9,6 +9,17 @@ uri :
 spring:
   cloud:
     gateway:
+      default-filters:
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter:
+                replenishRate: 10
+                burstCapacity: 20
+                requestedTokens: 1
+        - name: CircuitBreaker
+          args:
+              name: clientsService
+              fallbackUri: forward:/service-fallback
       routes:
         - id: all_clientes
           uri: http://localhost:9092/
